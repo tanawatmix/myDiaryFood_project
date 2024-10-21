@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
-class InsertDiaryfoodUi extends StatefulWidget {
-  const InsertDiaryfoodUi({super.key});
+class InsertDiaryfoodUI extends StatefulWidget {
+  const InsertDiaryfoodUI({super.key});
 
   @override
-  State<InsertDiaryfoodUi> createState() => _InsertDiaryfoodUiState();
+  State<InsertDiaryfoodUI> createState() => _InsertDiaryfoodUIState();
 }
 
-class _InsertDiaryfoodUiState extends State<InsertDiaryfoodUi> {
+class _InsertDiaryfoodUIState extends State<InsertDiaryfoodUI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

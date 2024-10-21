@@ -1,47 +1,90 @@
-// ignore_for_file: prefer_const_constructors
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-class HomeUi extends StatefulWidget {
-  const HomeUi({super.key});
+import 'package:flutter/material.dart';
+import 'package:my_diaryfood_project/models/member.dart';
+import 'package:my_diaryfood_project/views/update_profile_ui.dart';
+
+class HomeUI extends StatefulWidget {
+  Member? member;
+
+  HomeUI({super.key, this.member});
 
   @override
-  State<HomeUi> createState() => _HomeUiState();
+  State<HomeUI> createState() => _HomeUIState();
 }
 
-class _HomeUiState extends State<HomeUi> {
+class _HomeUIState extends State<HomeUI> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
-      backgroundColor: Colors.red,
+    return Scaffold(
+      backgroundColor: Colors.green[50],
+      //AppBar
       appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: Text(
-            'บันทึกการกิน',
-            style: TextStyle(
-              color: Colors.white,
+        backgroundColor: Colors.green,
+        title: Text(
+          'บันทึกการกิน',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.045,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              "https://cdn.pixabay.com/photo/2020/02/02/03/39/man-4811935_1280.png",
+              width: MediaQuery.of(context).size.width * 0.35,
+              height: MediaQuery.of(context).size.width * 0.35,
+              fit: BoxFit.cover,
             ),
           ),
-          centerTitle: true,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
           ),
-          body: Center(
-            child: Column( 
-              children: [ 
-                SizedBox(
-                height: MediaQuery.of(context).size.height * 0.045,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100.0),
-                child: Image.network(
-                  'https://cdn.pixabay.com/photo/2023/04/20/12/22/globe-7939725_1280.jpg',
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  height: MediaQuery.of(context).size.width * 0.45,
-                  fit: BoxFit.cover,
+//FullName
+          Text(
+            'ชื่อ-สกุล : ${widget.member!.memFullname}',
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+//Email
+          Text(
+            'อีเมล : ${widget.member!.memEmail}',
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpdateProfileUi(member: widget.member,),
                 ),
-              ),
-              ],
+              ).then((value){
+                //เอาค่าที่ส่งกลับมาหลังจากแก้ไขเสร็จมาแก้ไขให้กับwidget.member
+                setState(() {
+                  widget.member?.memEmail = value.memEmail;
+                  widget.member?.memUsername = value.memUsername;
+                  widget.member?.memPassword = value.memPassword;
+                  widget.member?.memAge = value.memAge;
+                });
+              });
+            },
+            child: Text(
+              'UPDATE PROFILE',
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.height * 0.015,
+                  color: Colors.orange),
             ),
-          ),
-
+          )
+        ],
+      )),
     );
   }
 }

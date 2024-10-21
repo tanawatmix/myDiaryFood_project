@@ -1,28 +1,29 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_is_empty, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_build_context_synchronously, prefer_is_empty
 
 import 'package:flutter/material.dart';
 import 'package:my_diaryfood_project/models/member.dart';
 import 'package:my_diaryfood_project/services/call_api.dart';
-import 'package:my_diaryfood_project/views/login_ui.dart';
+import 'package:my_diaryfood_project/views/home_ui.dart';
 
-class RegisterUI extends StatefulWidget {
-  const RegisterUI({super.key});
+
+class UpdateProfileUi extends StatefulWidget {
+  Member? member;
+  UpdateProfileUi({super.key, this.member});
 
   @override
-  State<RegisterUI> createState() => _RegisterUIState();
+  State<UpdateProfileUi> createState() => _UpdateProfileUiState();
 }
 
-class _RegisterUIState extends State<RegisterUI> {
-//TextField Controller
+class _UpdateProfileUiState extends State<UpdateProfileUi> {
+  //TextField Controller
   TextEditingController memFullNameCtrl = TextEditingController(text: '');
   TextEditingController memEmailCtrl = TextEditingController(text: '');
   TextEditingController memUsernameCtrl = TextEditingController(text: '');
   TextEditingController memPasswordCtrl = TextEditingController(text: '');
   TextEditingController memAgeCtrl = TextEditingController(text: '');
 
-//Boolean variable
+  //Boolean variable
   bool passStatus = true;
-
 //Method showWaringDialog
   showWaringDialog(context, msg) {
     showDialog(
@@ -90,37 +91,50 @@ class _RegisterUIState extends State<RegisterUI> {
   }
 
   @override
+  void initState() {
+    //เอาค่าที่ส่งมากำหนดให้แต่ละ TextEditingController
+    memFullNameCtrl.text = widget.member!.memFullname!;
+    memEmailCtrl.text = widget.member!.memEmail!;
+    memUsernameCtrl.text = widget.member!.memUsername!;
+    memPasswordCtrl.text = widget.member!.memPassword!;
+    memAgeCtrl.text = widget.member!.memAge!;
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.green[50],
-        //AppBar
-        appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: Text(
-            'ลงทะเบียน',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginUI(),
-                ),
-              );
-            },
-            icon: Icon(Icons.arrow_back_ios_new),
+      backgroundColor: Colors.green[50],
+//AppBar
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text(
+          'แก้ไขข้อมูลส่วนตัว',
+          style: TextStyle(
+            color: Colors.white,
           ),
         ),
-        body: SingleChildScrollView(
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeUI(),
+              ),
+            );
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
             child: Center(
                 child: Column(children: [
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.045,
           ),
+//Image
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.network(
@@ -129,6 +143,9 @@ class _RegisterUIState extends State<RegisterUI> {
               height: MediaQuery.of(context).size.width * 0.45,
               fit: BoxFit.cover,
             ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.045,
           ),
 //Text Fullname
           Padding(
@@ -154,6 +171,7 @@ class _RegisterUIState extends State<RegisterUI> {
               top: MediaQuery.of(context).size.height * 0.015,
             ),
             child: TextField(
+              enabled: false,
               controller: memFullNameCtrl,
               decoration: InputDecoration(
                 prefixIcon: Icon(
@@ -175,6 +193,12 @@ class _RegisterUIState extends State<RegisterUI> {
                   ),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                  ),
+                )
               ),
             ),
           ),
@@ -404,7 +428,7 @@ class _RegisterUIState extends State<RegisterUI> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
-//Login button
+//save button
           Padding(
             padding: EdgeInsets.only(
               left: MediaQuery.of(context).size.width * 0.1,
@@ -415,9 +439,7 @@ class _RegisterUIState extends State<RegisterUI> {
             child: ElevatedButton(
               onPressed: () {
                 //Validate
-                if (memFullNameCtrl.text.trim().length == 0) {
-                  showWaringDialog(context, 'ป้อนชื่อ-สกุลด้วย');
-                } else if (memEmailCtrl.text.trim().length == 0) {
+                if (memEmailCtrl.text.trim().length == 0) {
                   showWaringDialog(context, 'ป้อนอีเมลด้วย');
                 } else if (memUsernameCtrl.text.trim().length == 0) {
                   showWaringDialog(context, 'ป้อนชื่อผู้ใช้ด้วย');
@@ -429,24 +451,24 @@ class _RegisterUIState extends State<RegisterUI> {
                     //validate username and password from DB through API
                     //Create a variable to store data to be sent with the API
                   Member member = Member(
-                        memFullname: memFullNameCtrl.text.trim(),
+                        memId: widget.member!.memId!,
                         memEmail: memEmailCtrl.text.trim(),
                         memUsername: memUsernameCtrl.text.trim(),
                         memPassword: memPasswordCtrl.text.trim(),
                         memAge: memAgeCtrl.text.trim(),
                       );
                     //call API
-                    CallAPI.callRegisterMemberAPI(member).then((value) {
+                    CallAPI.callUpdateMemberAPI(member).then((value) {
                         if (value.message == '1') {
-                          showCompleteDialog(context, 'สมัครสมาชิกสําเร็จOvO').then((value) => Navigator.pop(context));
+                          showCompleteDialog(context, 'แก้ไขสําเร็จOvO').then((value) => Navigator.pop(context, member));
                         } else {
-                          showCompleteDialog(context, 'สมัครสมาชิกไม่สําเร็จ โปรดลองอีกครั้งTwT');
+                          showCompleteDialog(context, 'แก้ไขไม่สําเร็จ โปรดลองอีกครั้งTwT');
                         }
                       });
                 }
               },
               child: Text(
-                'เข้าใช้งานระบบ',
+                'บันทึกการแก้ไขข้อมูลส่วนตัว', 
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -463,6 +485,7 @@ class _RegisterUIState extends State<RegisterUI> {
               ),
             ),
           ),
-        ]))));
+        ])))
+    );
   }
 }

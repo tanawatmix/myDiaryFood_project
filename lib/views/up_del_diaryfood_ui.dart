@@ -2,18 +2,18 @@
 
 import 'package:flutter/material.dart';
 
-class UpDelDiaryfoodUi extends StatefulWidget {
-  const UpDelDiaryfoodUi({super.key});
+class UpDelDiaryfoodUI extends StatefulWidget {
+  const UpDelDiaryfoodUI({super.key});
 
   @override
-  State<UpDelDiaryfoodUi> createState() => _UpDelDiaryfoodUiState();
+  State<UpDelDiaryfoodUI> createState() => _UpDelDiaryfoodUIState();
 }
 
-class _UpDelDiaryfoodUiState extends State<UpDelDiaryfoodUi> {
+class _UpDelDiaryfoodUIState extends State<UpDelDiaryfoodUI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.pink,
+      backgroundColor: Colors.orange,
     );
   }
 }

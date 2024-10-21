@@ -1,18 +1,19 @@
 // ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
-class DiaryfoodDetailUi extends StatefulWidget {
-  const DiaryfoodDetailUi({super.key});
+class DiaryfoodDetailUI extends StatefulWidget {
+  const DiaryfoodDetailUI({super.key});
 
   @override
-  State<DiaryfoodDetailUi> createState() => _DiaryfoodDetailUiState();
+  State<DiaryfoodDetailUI> createState() => _DiaryfoodDetailUIState();
 }
 
-class _DiaryfoodDetailUiState extends State<DiaryfoodDetailUi> {
+class _DiaryfoodDetailUIState extends State<DiaryfoodDetailUI> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
-      backgroundColor: Colors.blue,
+    return Scaffold(
+      backgroundColor: Colors.red,
     );
   }
 }

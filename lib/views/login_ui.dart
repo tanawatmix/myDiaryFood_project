@@ -1,22 +1,28 @@
-// ignore_for_file: prefer_const_constructors, prefer_is_empty
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_is_empty, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:my_diaryfood_project/models/member.dart';
 import 'package:my_diaryfood_project/services/call_api.dart';
 import 'package:my_diaryfood_project/views/home_ui.dart';
-import 'package:my_diaryfood_project/views/register_ui.dart'; // Import the RegisterUi class
+import 'package:my_diaryfood_project/views/register_ui.dart';
 
-import '../models/member.dart';
-
-class LoginUi extends StatefulWidget {
-  const LoginUi({super.key});
+class LoginUI extends StatefulWidget {
+  const LoginUI({super.key});
 
   @override
-  State<LoginUi> createState() => _LoginUiState();
+  State<LoginUI> createState() => _LoginUIState();
 }
 
-class _LoginUiState extends State<LoginUi> {
+class _LoginUIState extends State<LoginUI> {
+//TextField Controller
+  TextEditingController memUsernameCtrl = TextEditingController(text: '');
+  TextEditingController memPasswordCtrl = TextEditingController(text: '');
+
+//Boolean variable 
   bool passStatus = true;
-  //เมธอดแสดงคำเตือนต่างๆ
-  showWarningDialog(context, msg) {
+
+//Method showWaringDialog
+  showWaringDialog(context, msg) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -47,23 +53,22 @@ class _LoginUiState extends State<LoginUi> {
       ),
     );
   }
-  
-  //ตัวควบคุมtextfield
-  TextEditingController memUsernameCtrl = TextEditingController(text: '');
-  TextEditingController memPasswordCtrl = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green[50],
+//AppBar
       appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: Text(
-            'บันทึกการกิน',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          )),
+        backgroundColor: Colors.green,
+        title: Text(
+          'บันทึกการกิน',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -71,6 +76,7 @@ class _LoginUiState extends State<LoginUi> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
+//Banner
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
@@ -81,6 +87,7 @@ class _LoginUiState extends State<LoginUi> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.04,
               ),
+//Text บันทึกการกิน
               Text(
                 'บันทึกการกิน',
                 style: TextStyle(
@@ -88,6 +95,7 @@ class _LoginUiState extends State<LoginUi> {
                   color: Colors.grey[800],
                 ),
               ),
+//Text เข้าใช้งานระบบ
               Text(
                 'เข้าใช้งานระบบ',
                 style: TextStyle(
@@ -98,6 +106,7 @@ class _LoginUiState extends State<LoginUi> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.04,
               ),
+//Text ชื่อผู้ใช้
               Padding(
                 padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1,
@@ -113,6 +122,7 @@ class _LoginUiState extends State<LoginUi> {
                   ),
                 ),
               ),
+//textfield username
               Padding(
                 padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1,
@@ -144,6 +154,7 @@ class _LoginUiState extends State<LoginUi> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
+//Text รหัสผ่าน
               Padding(
                 padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1,
@@ -159,6 +170,7 @@ class _LoginUiState extends State<LoginUi> {
                   ),
                 ),
               ),
+//textfield password
               Padding(
                 padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1,
@@ -200,21 +212,21 @@ class _LoginUiState extends State<LoginUi> {
                   ),
                 ),
               ),
+//Login button
               Padding(
                 padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1,
                   right: MediaQuery.of(context).size.width * 0.1,
                   top: MediaQuery.of(context).size.height * 0.03,
-                  bottom: MediaQuery.of(context).size.height * 0.1,
+                  bottom: MediaQuery.of(context).size.height * 0.03,
                 ),
                 child: ElevatedButton(
-                  onPressed: () { 
-                    //validate 
-                     //Validate
+                  onPressed: () {
+                    //Validate
                     if (memUsernameCtrl.text.trim().length == 0) {
-                      showWarningDialog(context, 'ป้อนชื่อผู้ใช้ด้วย');
+                      showWaringDialog(context, 'ป้อนชื่อผู้ใช้ด้วย');
                     } else if (memPasswordCtrl.text.trim().length == 0) {
-                      showWarningDialog(context, 'ป้อนรหัสผ่านด้วย');
+                      showWaringDialog(context, 'ป้อนรหัสผ่านด้วย');
                     } else {
                       //validate username and password from DB through API
                       //Create a variable to store data to be sent with the API
@@ -228,11 +240,11 @@ class _LoginUiState extends State<LoginUi> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomeUi(),
+                              builder: (context) => HomeUI(member: value,),
                             ),
                           );
                         } else {
-                          showWarningDialog(
+                          showWaringDialog(
                               context, "ชื่อผู้ใช้รหัสผ่านไม่ถูกต้อง");
                         }
                       });
@@ -242,38 +254,37 @@ class _LoginUiState extends State<LoginUi> {
                     'เข้าใช้งานระบบ',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
                     backgroundColor: Colors.green,
                     fixedSize: Size(
                       MediaQuery.of(context).size.width * 0.8,
                       MediaQuery.of(context).size.height * 0.07,
                     ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
               ),
+//register button
               TextButton(
-                onPressed: () { 
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RegisterUi(),
-                    ),
+                      builder: (context) => RegisterUI()
+                    )
                   );
                 },
                 child: Text(
-                  "ลงทะเบียนผู้ใช้ใหม่",
+                  'ลงทะเบียนผู้ใช้ใหม่',
                   style: TextStyle(
                     color: Colors.green,
-                    fontSize: MediaQuery.of(context).size.height * 0.02,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
