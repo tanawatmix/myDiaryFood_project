@@ -1,20 +1,18 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+// ignore: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'login_ui.dart'; // Import the LoginUi class if it exists in another file
+import 'package:my_diaryfood_project/views/login_ui.dart';
 
 class SplashScreenUi extends StatefulWidget {
   const SplashScreenUi({super.key});
 
   @override
-  State<SplashScreenUi> createState() => _SplashScreenUiState();
+  State<SplashScreenUi> createState() => _SplashScreenUIState();
 }
 
-
-
-class _SplashScreenUiState extends State<SplashScreenUi> {
+class _SplashScreenUIState extends State<SplashScreenUi> {
   @override
   void initState() {
-    super.initState();
     Future.delayed(
       Duration(seconds: 3),
       () => Navigator.pushReplacement(
@@ -24,42 +22,74 @@ class _SplashScreenUiState extends State<SplashScreenUi> {
         ),
       ),
     );
+    super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRect(
-              child: Image.asset(
-                'assets/images/banner.jpg',
-                width: MediaQuery.of(context).size.width * 0.75,
-              ),
-            ),  
-            SizedBox(
-              height: 20,
+      backgroundColor: Colors.green,
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    'assets/images/banner.jpg',
+                    width: MediaQuery.of(context).size.width * 0.75,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.035,
+                ),
+                Text(
+                  'บันทึกการกิน',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.height * 0.035,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.035,
+                ),
+                CircularProgressIndicator(
+                  color: Colors.yellow,
+                ),
+              ],
             ),
-            Text(
-              'บันทึกการกิน',
-              style: TextStyle( 
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.035,
-                fontWeight: FontWeight.bold,
-              ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Created by NinniN',
+                  style: TextStyle(
+                    color: Colors.grey[200],
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                Text(
+                  'Version 1.0.0',
+                  style: TextStyle(
+                    color: Colors.grey[200],
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.035,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 20,
-            ),
-            CircularProgressIndicator(
-              color: const Color.fromARGB(255, 0, 255, 34),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
